@@ -33,37 +33,36 @@ interface Props {
   btnTitle: string;
 }
 
-function PostThread({userId}: {userId: string}){
-    const router = useRouter();
-    const pathname = usePathname();
-
+function PostThread({ userId }: { userId: string }) {
+  const router = useRouter();
+  const pathname = usePathname();
 
   const form = useForm({
     resolver: zodResolver(ThreadValidation),
     defaultValues: {
-      thread: '',
+      thread: "",
       accountId: userId,
     },
   });
 
   const onSubmit = async (values: z.infer<typeof ThreadValidation>) => {
     await createThread({
-        text: values.thread,
-        author: userId,
-        communityId: null,
-        path: pathname,
-    })
+      text: values.thread,
+      author: userId,
+      communityId: null,
+      path: pathname,
+    });
 
-    router.push("/")
-  }
+    router.push("/");
+  };
 
-    return (
-        <Form {...form}>
+  return (
+    <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
         className="mt-10 flex flex-col justify-start gap-10"
       >
-    <FormField
+        <FormField
           control={form.control}
           name="thread"
           render={({ field }) => (
@@ -72,19 +71,18 @@ function PostThread({userId}: {userId: string}){
                 Content
               </FormLabel>
               <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
-                <Textarea
-                  rows={15}
-                  {...field}
-                />
+                <Textarea rows={15} {...field} />
               </FormControl>
-              <FormMessage/>
+              <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit" className="bg-primary-500">Post Thread</Button>
-    </form>
+        <Button type="submit" className="bg-primary-500">
+          Post Thread
+        </Button>
+      </form>
     </Form>
-    )
+  );
 }
 
 export default PostThread;
