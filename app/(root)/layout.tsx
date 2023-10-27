@@ -9,7 +9,6 @@ import BottomBar from "@/components/shared/BottomBar";
 
 const inter = Inter({ subsets: ["latin"] });
 
-
 export const metadata = {
   title: "Threads",
   desctiption: "A Next.js 13 Meta Threads Application",
@@ -24,18 +23,16 @@ export default function RootLayout({
     <ClerkProvider>
       <html lang="en">
         <body className={inter.className}>
-          <TopBar/>
+          <TopBar />
           <main className="flex flex-row">
-            <LeftSidebar/>
-          <section className="main-container">
-            <div className="w-full max-w-4xl">
-            {children}
-            </div>
-          </section>
-          <RightSidebar/>
+            <LeftSidebar />
+            <section className="main-container">
+              <div className="w-full max-w-4xl">{children}</div>
+            </section>
+            <RightSidebar />
           </main>
-           <BottomBar/>
-          </body>
+          <BottomBar />
+        </body>
       </html>
     </ClerkProvider>
   );
