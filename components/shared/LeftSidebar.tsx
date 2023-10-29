@@ -25,6 +25,7 @@ function LeftSidebar() {
               href={link.route}
               key={link.label}
               className={`leftsidebar_link ${isActive && "bg-primary-500"}`}
+              shallow={false}
             >
               <Image
                 src={link.imgURL}
