@@ -19,6 +19,7 @@ function BottomBar() {
               href={link.route}
               key={link.label}
               className={`bottombar_link ${isActive && "bg-primary-500"}`}
+              shallow={true}
             >
               <Image
                 src={link.imgURL}

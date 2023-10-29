@@ -1,6 +1,6 @@
 "use client";
 
-import { OrganizationSwitcher, SignOutButton, SignedIn } from "@clerk/nextjs";
+import { OrganizationSwitcher, SignOutButton, SignedIn, UserButton } from "@clerk/nextjs";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -36,6 +36,7 @@ function TopBar() {
             elements: { organizationSwitcherTrigger: "py-2 px-4" },
           }}
         />
+        {/* <UserButton/> */}
       </div>
     </nav>
   );
