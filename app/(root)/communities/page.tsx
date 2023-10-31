@@ -28,7 +28,7 @@ async function Page({
     <section>
       <h1 className="head-text mb-10">Search</h1>
       <Searchbar routeType="communities" />
-      <div className="mt-14 flex flex-col gap-9">
+      <div className="mt-14 flex flex-wrap gap-9">
         {result.communities.length === 0 ? (
           <p className="no-result">No communities</p>
         ) : (
