@@ -1,3 +1,5 @@
+import { OrganizationSwitcher } from "@clerk/nextjs";
+import { dark } from "@clerk/themes";
 import Image from "next/image";
 
 interface Props {
@@ -7,7 +9,7 @@ interface Props {
   username: string;
   imgUrl: string;
   bio: string;
-  type?: 'User' | 'Community';
+  type?: "User" | "Community";
 }
 
 const ProfileHeader = ({
@@ -17,7 +19,7 @@ const ProfileHeader = ({
   username,
   imgUrl,
   bio,
-  type
+  type,
 }: Props) => {
   return (
     <div className="flex w-full flex-col justify-start">
@@ -38,11 +40,18 @@ const ProfileHeader = ({
             <p className="text-base-medium text-gray-1">@{username}</p>
           </div>
         </div>
+        {authUserId === accoundId && (
+          <OrganizationSwitcher
+            appearance={{
+              baseTheme: dark,
+              elements: { organizationSwitcherTrigger: "py-2 px-4" },
+            }}
+          />
+        )}
       </div>
-        {/* {TODO: Community} */}
-
-        <p className="mt-6 max-w-lg text-base-regular text-light-2">{bio}</p>
-        <div className="mt-12 h-0.5 w-full bg-dark-3"/>
+      {/* {TODO: Community} */}
+      <p className="mt-6 max-w-lg text-base-regular text-light-2">{bio}</p>
+      <div className="mt-12 h-0.5 w-full bg-dark-3" />
     </div>
   );
 };
