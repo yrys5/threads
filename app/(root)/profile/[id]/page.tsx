@@ -21,8 +21,8 @@ export const generateMetadata = async (props: Props): Promise<Metadata> => {
 
   const userInfo = await fetchUser(params.id);
   return {
-    title: `${userInfo.name} (@${userInfo.username}) on Thrinks`,
-    description: `${userInfo.bio}`
+    title: `${userInfo?.name} (@${userInfo?.username}) on Thrinks`,
+    description: `${userInfo?.bio}`
   };
 };
 // Dynamic Metadata <==
