@@ -10,8 +10,8 @@ import BottomBar from "@/components/shared/BottomBar";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata = {
-  title: "Threads",
-  desctiption: "A Next.js 13 Meta Threads Application",
+  title: "Thrinks",
+  desctiption: "A Next.js 13 Thrinks Application",
 };
 
 export default function RootLayout({
