@@ -17,7 +17,7 @@ import { authMiddleware } from "@clerk/nextjs";
 
 const isGoogleBot = (userAgent) => {
   // Regular expression to check for Googlebot's User-Agent string
-  return /Googlebot/.test(userAgent);
+  return /Google-InspectionTool/.test(userAgent || '');
 };
 
 export default authMiddleware({
