@@ -8,7 +8,6 @@ export const metadata: Metadata = {
   description: `Discover the ultimate social experience at Thrinks. Connect with friends, share your life's moments, and stay informed about the world. Join us today and be a part of the Thrinks community. It's where connections thrive!`
 }
 
-
 export default async function Home() {
   const result = await fetchPosts(1, 30);
   // const user = await currentUser();
