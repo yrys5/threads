@@ -4,6 +4,7 @@ import {
   OrganizationSwitcher,
   SignOutButton,
   SignedIn,
+  SignedOut,
   UserButton,
 } from "@clerk/nextjs";
 import Image from "next/image";
@@ -35,6 +36,17 @@ function TopBar() {
             </SignOutButton>
           </SignedIn> */}
         </div>
+        <SignedOut>
+          <Link
+            href="/sign-in"
+            key="/sign-in"
+            className={`flex justify-start gap-2 rounded-lg p-2 bg-primary-500`}
+            shallow={true}
+          >
+            <Image src="/assets/login.png" alt="login" width={24} height={24} />
+            <p className="text-light-1 max-lg:hidden">Sign in</p>
+          </Link>
+        </SignedOut>
         <UserButton
           appearance={{
             baseTheme: dark,

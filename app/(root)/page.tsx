@@ -1,11 +1,17 @@
 import ThreadCard from "@/components/cards/ThreadCard";
 import { fetchPosts } from "@/lib/actions/thread.actions";
 import { UserButton, currentUser } from "@clerk/nextjs";
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: 'Thrinks',
+  description: `Discover the ultimate social experience at Thrinks. Connect with friends, share your life's moments, and stay informed about the world. Join us today and be a part of the Thrinks community. It's where connections thrive!`
+}
+
 
 export default async function Home() {
   const result = await fetchPosts(1, 30);
   // const user = await currentUser();
-  // Indexing test without user (currently it's not used anyway)
 
   return (
     <>

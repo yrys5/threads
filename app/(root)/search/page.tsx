@@ -2,11 +2,28 @@ import UserCard from "@/components/cards/UserCard";
 import Searchbar from "@/components/shared/Searchbar";
 import { fetchUser, fetchUsers } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs";
+import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-async function Page({searchParams}:{searchParams: { [key: string]: string | undefined }}) {
+export const metadata: Metadata = {
+  title: "Search on Thrinks",
+  description:
+    "Explore and discover a world of content and connections on Thrinks. Join our vibrant community to connect, share, and stay updated with the latest trends, news, and stories from around the globe. Sign up for free and start exploring today!",
+};
+
+async function Page({
+  searchParams,
+}: {
+  searchParams: { [key: string]: string | undefined };
+}) {
   const user = await currentUser();
-  if (!user) return null;
+  if (!user)
+    return (
+      <p className="text-light-1">
+        We're sorry, but to view this content, please log in to your account. If
+        you don't have an account yet, you can sign up for free.
+      </p>
+    );
 
   const userInfo = await fetchUser(user.id);
   if (!userInfo?.onboarded) redirect("/onboarding");

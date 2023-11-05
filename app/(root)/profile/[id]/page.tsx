@@ -9,7 +9,6 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
 
-
 // Dynamic Metadata ==>
 type Props = {
   params: { id: string };
@@ -17,12 +16,12 @@ type Props = {
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
   const { params } = props;
-  const user = await currentUser();
+  // const user = await currentUser();
 
   const userInfo = await fetchUser(params.id);
   return {
     title: `${userInfo?.name} (@${userInfo?.username}) on Thrinks`,
-    description: `${userInfo?.bio}`
+    description: `${userInfo?.bio}`,
   };
 };
 // Dynamic Metadata <==
