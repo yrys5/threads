@@ -10,6 +10,9 @@ export default authMiddleware({
     "https://www.thrinks.com/search",
     "http://localhost:3000",
   ],
+  audience: [
+    "https://www.thrinks.com/search",
+  ],
   publicRoutes: [
     "/",
     "/sign-in",
