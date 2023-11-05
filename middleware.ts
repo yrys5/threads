@@ -5,7 +5,11 @@ import { authMiddleware } from "@clerk/nextjs";
 // See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
 export default authMiddleware({
   debug: true,
-  authorizedParties: ["https://www.thrinks.com", "http://localhost:3000"],
+  authorizedParties: [
+    "https://www.thrinks.com",
+    "https://www.thrinks.com/search",
+    "http://localhost:3000",
+  ],
   publicRoutes: [
     "/",
     "/sign-in",
@@ -16,9 +20,16 @@ export default authMiddleware({
     "/api/webhook/clerk",
     "/profile/user(.*)",
     "/thread/(.*)",
-    "/sitemap"
+    "/sitemap",
   ],
-  ignoredRoutes: ["/api/webhook/clerk", "/", "/profile"],
+  ignoredRoutes: [
+    "/",
+    "/sign-in",
+    "/sign-in(.*)",
+    "/sign-up",
+    "/sign-up(.*)",
+    "/api/webhook/clerk",
+  ],
 });
 
 export const config = {
