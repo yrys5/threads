@@ -4,29 +4,29 @@ import { authMiddleware } from "@clerk/nextjs";
 // Please edit this to allow other routes to be public as needed.
 // See https://clerk.com/docs/references/nextjs/auth-middleware for more information about configuring your Middleware
 export default authMiddleware({
-  debug: true,
-  authorizedParties: [
-    "https://www.thrinks.com",
-    "https://www.thrinks.com/search",
-    "http://localhost:3000",
-  ],
-  audience: [
-    "https://www.thrinks.com/search",
-  ],
+  // debug: true,
+  // authorizedParties: [
+  //   "https://www.thrinks.com",
+  //   "https://www.thrinks.com/search",
+  //   "http://localhost:3000",
+  // ],
+  // audience: [
+  //   "https://www.thrinks.com/search",
+  // ],
   publicRoutes: [
     "/",
     "/sign-in",
     "/sign-in(.*)",
     "/sign-up",
     "/sign-up(.*)",
-    "/search",
+    // "/search",
     "/api/webhook/clerk",
     "/profile/user(.*)",
     "/thread/(.*)",
-    "/sitemap",
+    // "/sitemap",
   ],
   ignoredRoutes: [
-    "/",
+    // "/",
     "/sign-in",
     "/sign-in(.*)",
     "/sign-up",

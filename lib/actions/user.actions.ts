@@ -8,6 +8,7 @@ import Thread from "../models/thread.model";
 import User from "../models/user.model";
 
 import { connectToDB } from "../mongoose";
+import Clerk from "@clerk/clerk-js";
 
 export async function fetchUser(userId: string) {
   try {
@@ -53,6 +54,20 @@ export async function updateUser({
       },
       { upsert: true }
     );
+
+    // Set with @clerk/clerk-js new profile image ==>
+
+    const clerk = new Clerk(`${process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY}`);
+
+    await clerk.load({
+      //  user?.setProfileImage({ file: image });
+      
+    })
+
+    console.log("clerk: " + JSON.stringify(clerk, null, 15));
+
+
+    // Set with @clerk/clerk-js new profile image <==
 
     if (path === "/profile/edit") {
       revalidatePath(path);
