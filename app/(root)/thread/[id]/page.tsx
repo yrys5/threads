@@ -44,7 +44,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
   return (
     <section className="relative">
-      <div>
+      <div className="max-sm:mt-5">
         <ThreadCard
           key={thread._id}
           id={thread._id}

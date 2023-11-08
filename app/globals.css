@@ -5,12 +5,12 @@
 @layer components {
   /* main */
   .main-container {
-    @apply flex min-h-screen flex-1 flex-col items-center bg-dark-1 px-6 pb-10 pt-28 max-md:pb-32 sm:px-10;
+    @apply flex min-h-screen flex-1 flex-col items-center bg-dark-1 px-6 pb-10 pt-28 max-sm:pt-14 max-sm:px-0 max-md:pb-32 sm:px-10;
   }
 
   /* Head Text */
   .head-text {
-    @apply text-heading2-bold text-light-1;
+    @apply text-heading2-bold text-light-1 max-sm:hidden;
   }
 
   /* Activity */
@@ -51,7 +51,7 @@
   }
 
   .searchbar {
-    @apply flex gap-1 rounded-lg bg-dark-3 px-4 py-2;
+    @apply flex gap-1 rounded-lg bg-dark-3 px-4 py-2 max-sm:mt-6;
   }
 
   .searchbar_input {
@@ -153,7 +153,7 @@
 
 /* Comment Form */
 .comment-form {
-  @apply mt-10 flex items-center gap-4 border-y border-y-dark-4 py-5 max-xs:flex-col !important;
+  @apply mt-10 flex items-center gap-4 border-y border-y-dark-4 py-5 max-xs:flex-col max-sm:px-4 !important;
 }
 
 .comment-form_btn {
