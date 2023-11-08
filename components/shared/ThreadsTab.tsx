@@ -20,7 +20,7 @@ const ThreadsTab = async ({ currentUserId, accoundId, accountType }: Props) => {
   if (!result) redirect("/");
   
   return (
-    <section className="mt-9 flex flex-col gap-10">
+    <section className="mt-9 flex flex-col sm:gap-10">
       {result.threads.map((thread: any) => (
         <ThreadCard
           key={thread._id}
