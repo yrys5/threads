@@ -1,6 +1,7 @@
 import { OrganizationSwitcher } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import Image from "next/image";
+import { Button } from "../ui/button";
 
 interface Props {
   accoundId: string;
@@ -51,6 +52,7 @@ const ProfileHeader = ({
       </div>
       {/* {TODO: Community} */}
       <p className="mt-6 max-w-lg text-base-regular text-light-2">{bio}</p>
+      <Button className="bg-primary-500 mt-4 w-2/6">Follow</Button>
     </div>
   );
 };
