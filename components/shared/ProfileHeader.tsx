@@ -52,7 +52,10 @@ const ProfileHeader = ({
       </div>
       {/* {TODO: Community} */}
       <p className="mt-6 max-w-lg text-base-regular text-light-2">{bio}</p>
+      <p className="mt-6 max-w-lg text-base-regular text-gray-600">0 followers</p>
+      {authUserId !== accoundId && (
       <Button className="bg-primary-500 mt-4 w-2/6">Follow</Button>
+      )}
     </div>
   );
 };
