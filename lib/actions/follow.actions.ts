@@ -6,38 +6,60 @@ import User from "../models/user.model";
 import Community from "../models/community.model";
 import Follow from "../models/follow.model";
 
-export async function toggleFollow(followerId: string, followedId: string){
-    await connectToDB();
+export async function toggleFollow(followerId: string, followedId: string) {
+  await connectToDB();
 
-    const followedCommunityIdObject = await Community.findOne(
-        { id: followedId },
-        { _id: 1 }
-      );
+  //USER / COMMUNITY == Followed
+  const followedCommunityId = await Community.findOne({ id: followedId });
+  const followedUserId = await User.findOne({ id: followedId });
+  const followedObject = followedCommunityId || followedUserId;
 
-    const followerCommunityIdObject = await Community.findOne(
-        { id: followerId },
-        { _id: 1 }
-      );
+  //USER / COMMUNITY == Follower
+  const followerCommunityId = await Community.findOne({ id: followerId });
+  const followerUserId = await User.findOne({ id: followerId });
+  const followerObject = followerCommunityId || followerUserId;
 
-    const followRecord = await Follow.findOne({
-        'user.userId': followerId,
-        $or: [
-            { 'followed.followedId': followedCommunityIdObject ? followedCommunityIdObject._id : followedId },
-            { 'followers.followerId': followerCommunityIdObject ? followerCommunityIdObject._id : followerId }
-        ]
-    });
+  // Followed / Follower - Object in Follow collection
+  const followedObjectinFollow = await Follow.findOne({
+    "user.userId": followedObject,
+  });
+  const followerObjectinFollow = await Follow.findOne({
+    "user.userId": followerObject,
+  });
 
-    if (followRecord) {
-        // Usuń rekord obserwowania
-        await Follow.findByIdAndRemove(followRecord._id);
-    } else {
-        // Utwórz rekord obserwowania
-        await Follow.create({
-            user: { userId: followerId, onModel: 'User' },
-            followed: [{
-                followedId: followedCommunityIdObject ? followedCommunityIdObject._id : followedId,
-                onModel: followedCommunityIdObject ? 'Community' : 'User'
-            }]
-        });
-    }
+  // TODO: Pull if exist
+  await Follow.findOneAndUpdate(
+    { "user.userId": followedObject },
+    {
+      $set: {
+        "user.userId": followedObject,
+        "user.onModel": "User", // TODO: Comunnity <=
+      },
+      $addToSet: {
+        followers: {
+          followerId: followerObject,
+          onModel: "User", // TODO: Comunnity <=
+        },
+      },
+    },
+    { upsert: true, new: true }
+  );
+
+  // TODO: Pull if exist
+  await Follow.findOneAndUpdate(
+    { "user.userId": followerObject },
+    {
+      $set: {
+        "user.userId": followerObject,
+        "user.onModel": "User", // TODO: Comunnity <=
+      },
+      $addToSet: {
+        followed: {
+          followerId: followedObject,
+          onModel: "User", // TODO: Comunnity <=
+        },
+      },
+    },
+    { upsert: true, new: true }
+  );
 }

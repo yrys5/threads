@@ -1,7 +1,9 @@
+"use client"
 import { OrganizationSwitcher } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import Image from "next/image";
 import { Button } from "../ui/button";
+import { toggleFollow } from "@/lib/actions/follow.actions";
 
 interface Props {
   accoundId: string;
@@ -54,7 +56,7 @@ const ProfileHeader = ({
       <p className="mt-6 max-w-lg text-base-regular text-light-2">{bio}</p>
       <p className="mt-6 max-w-lg text-base-regular text-gray-600">0 followers</p>
       {authUserId !== accoundId && (
-      <Button className="bg-primary-500 mt-4 w-2/6">Follow</Button>
+      <Button onClick={() => toggleFollow(authUserId,accoundId)} className="bg-primary-500 mt-4 w-2/6">Follow</Button>
       )}
     </div>
   );

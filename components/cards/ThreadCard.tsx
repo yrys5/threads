@@ -40,7 +40,6 @@ function ThreadCard({
   comments,
   isComment,
 }: Props) {
-  console.log(community)
   return (
     <article
       className={`flex w-full flex-col sm:rounded-xl max-sm:p-3 max-sm:border-neutral-900 max-sm:border-t ${
