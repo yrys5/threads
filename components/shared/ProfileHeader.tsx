@@ -1,9 +1,10 @@
 "use client"
+import React, { useState, useEffect } from 'react';
 import { OrganizationSwitcher } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { toggleFollow } from "@/lib/actions/follow.actions";
+import { addFollow, isFollowed, removeFollow } from "@/lib/actions/follow.actions";
 
 interface Props {
   accoundId: string;
@@ -24,6 +25,27 @@ const ProfileHeader = ({
   bio,
   type,
 }: Props) => {
+  const [isUserFollowed, setIsUserFollowed] = useState<boolean>(false);
+
+  useEffect(() => {
+    const checkFollowStatus = async () => {
+      const followed = await isFollowed(authUserId, accoundId);
+      setIsUserFollowed(followed);
+    };
+    checkFollowStatus();
+  }, [authUserId, accoundId, isUserFollowed]);
+
+  const handleFollow = async () => {
+    await addFollow(authUserId, accoundId);
+    setIsUserFollowed(true);
+  };
+
+  const handleRemoveFollow = async () => {
+    await removeFollow(authUserId, accoundId);
+    setIsUserFollowed(false);
+  };
+
+
   return (
     <div className="flex w-full flex-col justify-start max-sm:px-3 max-sm:mt-4">
       <div className="flex items-center justify-between">
@@ -56,7 +78,11 @@ const ProfileHeader = ({
       <p className="mt-6 max-w-lg text-base-regular text-light-2">{bio}</p>
       <p className="mt-6 max-w-lg text-base-regular text-gray-600">0 followers</p>
       {authUserId !== accoundId && (
-      <Button onClick={() => toggleFollow(authUserId,accoundId)} className="bg-primary-500 mt-4 w-2/6">Follow</Button>
+        isUserFollowed ? (
+          <Button onClick={handleRemoveFollow} className="bg-primary-500 mt-4 w-2/6">Remove follow</Button>
+          ):(
+        <Button onClick={handleFollow} className="bg-primary-500 mt-4 w-2/6">Follow</Button>
+  )
       )}
     </div>
   );
