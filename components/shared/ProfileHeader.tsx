@@ -1,10 +1,14 @@
-"use client"
-import React, { useState, useEffect } from 'react';
+"use client";
+import React, { useState, useEffect } from "react";
 import { OrganizationSwitcher } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import Image from "next/image";
 import { Button } from "../ui/button";
-import { addFollow, isFollowed, removeFollow } from "@/lib/actions/follow.actions";
+import {
+  addFollow,
+  isFollowed,
+  removeFollow,
+} from "@/lib/actions/follow.actions";
 
 interface Props {
   accoundId: string;
@@ -14,6 +18,7 @@ interface Props {
   imgUrl: string;
   bio: string;
   type?: "User" | "Community";
+  followersNumber: string;
 }
 
 const ProfileHeader = ({
@@ -24,7 +29,11 @@ const ProfileHeader = ({
   imgUrl,
   bio,
   type,
+  followersNumber,
 }: Props) => {
+  // TODO: Move isFollowed check logic to a higher component in the structure for earlier data loading before
+  // component render. Currently, the follow state is updated after the component renders, causing noticeable 
+  // button state refresh delays.
   const [isUserFollowed, setIsUserFollowed] = useState<boolean>(false);
 
   useEffect(() => {
@@ -44,7 +53,6 @@ const ProfileHeader = ({
     await removeFollow(authUserId, accoundId);
     setIsUserFollowed(false);
   };
-
 
   return (
     <div className="flex w-full flex-col justify-start max-sm:px-3 max-sm:mt-4">
@@ -74,16 +82,23 @@ const ProfileHeader = ({
           />
         )}
       </div>
-      {/* {TODO: Community} */}
       <p className="mt-6 max-w-lg text-base-regular text-light-2">{bio}</p>
-      <p className="mt-6 max-w-lg text-base-regular text-gray-600">0 followers</p>
-      {authUserId !== accoundId && (
-        isUserFollowed ? (
-          <Button onClick={handleRemoveFollow} className="bg-primary-500 mt-4 w-2/6">Remove follow</Button>
-          ):(
-        <Button onClick={handleFollow} className="bg-primary-500 mt-4 w-2/6">Follow</Button>
-  )
-      )}
+      <p className="mt-6 max-w-lg text-base-regular text-gray-600">
+        {followersNumber || 0} followers
+      </p>
+      {authUserId !== accoundId &&
+        (isUserFollowed ? (
+          <Button
+            onClick={handleRemoveFollow}
+            className="bg-primary-500 mt-4 w-2/6"
+          >
+            Remove follow
+          </Button>
+        ) : (
+          <Button onClick={handleFollow} className="bg-primary-500 mt-4 w-2/6">
+            Follow
+          </Button>
+        ))}
     </div>
   );
 };

@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const followSchema = new mongoose.Schema({
   user: {
     userId: {
-      type: String, // Zmiana z ObjectId na String, aby pasowało do Twojego niestandardowego ID
+      type: String,
       required: true,
       refPath: "user.onModel",
     },
@@ -16,7 +16,7 @@ const followSchema = new mongoose.Schema({
   followers: [
     {
       followerId: {
-        type: String, // Zmiana z ObjectId na String
+        type: String,
         refPath: "followers.onModel",
       },
       onModel: {
@@ -28,7 +28,7 @@ const followSchema = new mongoose.Schema({
   followed: [
     {
       followedId: {
-        type: String, // Zmiana z ObjectId na String
+        type: String,
         refPath: "followed.onModel",
       },
       onModel: {
