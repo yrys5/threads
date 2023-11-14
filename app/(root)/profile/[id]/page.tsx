@@ -8,6 +8,7 @@ import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
+import { getUserFollows } from "@/lib/actions/follow.actions";
 
 // Dynamic Metadata ==>
 type Props = {
@@ -33,6 +34,8 @@ async function Page({ params }: { params: { id: string } }) {
 
   const userInfo = await fetchUser(params.id);
 
+  const userFollows = await getUserFollows(userInfo.id);
+
   if (!userInfo?.onboarded) redirect("/onboarding");
 
   return (
@@ -44,6 +47,7 @@ async function Page({ params }: { params: { id: string } }) {
         username={userInfo.username}
         imgUrl={userInfo.image}
         bio={userInfo.bio}
+        followersNumber={userFollows?.searchedUser?.followers?.length || 0}
       />
       <div className="mt-9">
         <Tabs defaultValue="threads" className="w-full">

@@ -6,13 +6,16 @@ import ThreadsTab from "@/components/shared/ThreadsTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchCommunityDetails } from "@/lib/actions/community.actions";
 import UserCard from "@/components/cards/UserCard";
+import { getUserFollows } from "@/lib/actions/follow.actions";
 
 
 async function Page({params}:{params: {id:string}}) {
     const user = await currentUser();
     if (!user) return null;
-  
+    
     const communityDetails = await fetchCommunityDetails(params.id)
+
+    const userFollows = await getUserFollows(communityDetails.id);
 
     return (
         <section>
@@ -23,6 +26,7 @@ async function Page({params}:{params: {id:string}}) {
             username={communityDetails.username}
             imgUrl={communityDetails.image}
             bio={communityDetails.bio}
+            followersNumber={userFollows?.searchedUser?.followers?.length || 0}
             type="Community"
             />
             <div className="mt-9">
