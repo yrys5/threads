@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const followSchema = new mongoose.Schema({
   user: {
     userId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       refPath: "user.onModel",
     },
@@ -16,7 +16,7 @@ const followSchema = new mongoose.Schema({
   followers: [
     {
       followerId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         refPath: "followers.onModel",
       },
       onModel: {
@@ -28,7 +28,7 @@ const followSchema = new mongoose.Schema({
   followed: [
     {
       followedId: {
-        type: String,
+        type: mongoose.Schema.Types.ObjectId,
         refPath: "followed.onModel",
       },
       onModel: {

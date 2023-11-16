@@ -10,22 +10,27 @@ export async function isFollowed(
   followerId: string,
   followedId: string
 ): Promise<boolean> {
-  await connectToDB();
+  try {
+    await connectToDB();
 
-  const followedCommunityId = await Community.findOne({ id: followedId });
-  const followedUserId = await User.findOne({ id: followedId });
-  const followedObject = followedCommunityId || followedUserId;
+    const followedCommunityId = await Community.findOne({ id: followedId });
+    const followedUserId = await User.findOne({ id: followedId });
+    const followedObject = followedCommunityId || followedUserId;
 
-  const followerCommunityId = await Community.findOne({ id: followerId });
-  const followerUserId = await User.findOne({ id: followerId });
-  const followerObject = followerCommunityId || followerUserId;
+    const followerCommunityId = await Community.findOne({ id: followerId });
+    const followerUserId = await User.findOne({ id: followerId });
+    const followerObject = followerCommunityId || followerUserId;
 
-  const isFollower = await Follow.findOne({
-    "user.userId": followedObject,
-    "followers.followerId": followerObject,
-  });
+    const isFollower = await Follow.findOne({
+      "user.userId": followedObject,
+      "followers.followerId": followerObject,
+    });
 
-  return !!isFollower; // Konwersja do boolean - zwraca true jeśli znaleziono dokument, w przeciwnym razie false
+    return !!isFollower; // Konwersja do boolean - zwraca true jeśli znaleziono dokument, w przeciwnym razie false
+  } catch (error) {
+    console.error("Error is followers:", error);
+    throw error;
+  }
 }
 
 export async function getUserFollows(clerkUserId: string) {
@@ -46,88 +51,98 @@ export async function getUserFollows(clerkUserId: string) {
 }
 
 export async function addFollow(followerId: string, followedId: string) {
-  await connectToDB();
+  try {
+    await connectToDB();
 
-  //USER / COMMUNITY == Followed
-  const followedCommunityId = await Community.findOne({ id: followedId });
-  const followedUserId = await User.findOne({ id: followedId });
-  const followedObject = followedCommunityId || followedUserId;
+    //USER / COMMUNITY == Followed
+    const followedCommunityId = await Community.findOne({ id: followedId });
+    const followedUserId = await User.findOne({ id: followedId });
+    const followedObject = followedCommunityId || followedUserId;
 
-  const followerCommunityId = await Community.findOne({ id: followerId });
-  const followerUserId = await User.findOne({ id: followerId });
-  const followerObject = followerCommunityId || followerUserId;
+    const followerCommunityId = await Community.findOne({ id: followerId });
+    const followerUserId = await User.findOne({ id: followerId });
+    const followerObject = followerCommunityId || followerUserId;
 
-  await Follow.findOneAndUpdate(
-    {
-      "user.userId": followedObject,
-      "followers.followerId": { $ne: followerObject },
-    },
-    {
-      $addToSet: {
-        followers: {
-          followerId: followerObject,
-          onModel: "User", // TODO: Or Community
+    await Follow.findOneAndUpdate(
+      {
+        "user.userId": followedObject,
+        "followers.followerId": { $ne: followerObject },
+      },
+      {
+        $addToSet: {
+          followers: {
+            followerId: followerObject,
+            onModel: "User", // TODO: Or Community
+          },
         },
       },
-    },
-    { upsert: true, new: true }
-  );
+      { upsert: true, new: true }
+    );
 
-  await Follow.findOneAndUpdate(
-    {
-      "user.userId": followerObject,
-      "followed.followedId": { $ne: followedObject },
-    },
-    {
-      $addToSet: {
-        followed: {
-          followedId: followedObject,
-          onModel: "User", // TODO: Or Community
+    await Follow.findOneAndUpdate(
+      {
+        "user.userId": followerObject,
+        "followed.followedId": { $ne: followedObject },
+      },
+      {
+        $addToSet: {
+          followed: {
+            followedId: followedObject,
+            onModel: "User", // TODO: Or Community
+          },
         },
       },
-    },
-    { upsert: true, new: true }
-  );
+      { upsert: true, new: true }
+    );
+  } catch (error) {
+    console.error("Error adding follow:", error);
+    throw error;
+  }
 }
 
 export async function removeFollow(followerId: string, followedId: string) {
-  await connectToDB();
+  try {
+    await connectToDB();
 
-  const followedCommunityId = await Community.findOne({ id: followedId });
-  const followedUserId = await User.findOne({ id: followedId });
-  const followedObject = followedCommunityId || followedUserId;
+    const followedCommunityId = await Community.findOne({ id: followedId });
+    const followedUserId = await User.findOne({ id: followedId });
+    const followedObject = followedCommunityId || followedUserId;
 
-  const followerCommunityId = await Community.findOne({ id: followerId });
-  const followerUserId = await User.findOne({ id: followerId });
-  const followerObject = followerCommunityId || followerUserId;
+    const followerCommunityId = await Community.findOne({ id: followerId });
+    const followerUserId = await User.findOne({ id: followerId });
+    const followerObject = followerCommunityId || followerUserId;
 
-  await Follow.findOneAndUpdate(
-    {
-      "user.userId": followedObject,
-      "followers.followerId": followerObject,
-    },
-    {
-      $pull: {
-        followers: {
-          followerId: followerObject,
+    await Follow.findOneAndUpdate(
+      {
+        "user.userId": followedObject,
+        "followers.followerId": followerObject,
+      },
+      {
+        $pull: {
+          followers: {
+            followerId: followerObject,
+          },
         },
       },
-    },
-    { new: true }
-  );
+      { new: true }
+    );
 
-  await Follow.findOneAndUpdate(
-    {
-      "user.userId": followerObject,
-      "followed.followedId": followedObject,
-    },
-    {
-      $pull: {
-        followed: {
-          followedId: followedObject,
+    await Follow.findOneAndUpdate(
+      {
+        "user.userId": followerObject,
+        "followed.followedId": followedObject,
+      },
+      {
+        $pull: {
+          followed: {
+            followedId: followedObject,
+          },
         },
       },
-    },
-    { new: true }
-  );
+      { new: true }
+    );
+  } catch (error) {
+    console.error("Error removing follow:", error);
+    throw error;
+  }
 }
