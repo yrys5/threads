@@ -28,7 +28,7 @@ export async function isFollowed(
 
     return !!isFollower; // Konwersja do boolean - zwraca true jeśli znaleziono dokument, w przeciwnym razie false
   } catch (error) {
-    console.error("Error is followers:", error);
+    console.error("Error in is followers:", error);
     throw error;
   }
 }
@@ -45,22 +45,75 @@ export async function getUserFollows(clerkUserId: string) {
     });
     return { searchedUser };
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error geting follows:", error);
     throw error;
   }
 }
+
+// export async function addFollow(followerId: string, followedId: string) {
+//   try {
+//     await connectToDB();
+
+//     //USER / COMMUNITY == Followed
+//     const followedCommunityId = await Community.findOne({ id: followedId });
+//     const followedUserId = await User.findOne({ id: followedId });
+//     const followedObject = followedCommunityId || followedUserId;
+
+//     const followerCommunityId = await Community.findOne({ id: followerId });
+//     const followerUserId = await User.findOne({ id: followerId });
+//     const followerObject = followerCommunityId || followerUserId;
+
+//     await Follow.findOneAndUpdate(
+//       {
+//         "user.userId": followedObject,
+//         "followers.followerId": { $ne: followerObject },
+//       },
+//       {
+//         $addToSet: {
+//           followers: {
+//             followerId: followerObject,
+//             onModel: "User", // TODO: Or Community
+//           },
+//         },
+//       },
+//       { upsert: true, new: true }
+//     );
+
+//     await Follow.findOneAndUpdate(
+//       {
+//         "user.userId": followerObject,
+//         "followed.followedId": { $ne: followedObject },
+//       },
+//       {
+//         $addToSet: {
+//           followed: {
+//             followedId: followedObject,
+//             onModel: "User", // TODO: Or Community
+//           },
+//         },
+//       },
+//       { upsert: true, new: true }
+//     );
+//   } catch (error) {
+//     console.error("Error adding follow:", error);
+//     throw error;
+//   }
+// }
 
 export async function addFollow(followerId: string, followedId: string) {
   try {
     await connectToDB();
 
+    const isFollowerUser = followerId.startsWith("user_");
+    const isFollowedUser = followedId.startsWith("user_");
+
     //USER / COMMUNITY == Followed
-    const followedCommunityId = await Community.findOne({ id: followedId });
-    const followedUserId = await User.findOne({ id: followedId });
+    const followedCommunityId = isFollowedUser ? null : await Community.findOne({ id: followedId });
+    const followedUserId = isFollowedUser ? await User.findOne({ id: followedId }) : null;
     const followedObject = followedCommunityId || followedUserId;
 
-    const followerCommunityId = await Community.findOne({ id: followerId });
-    const followerUserId = await User.findOne({ id: followerId });
+    const followerCommunityId = isFollowerUser ? null : await Community.findOne({ id: followerId });
+    const followerUserId = isFollowerUser ? await User.findOne({ id: followerId }) : null;
     const followerObject = followerCommunityId || followerUserId;
 
     await Follow.findOneAndUpdate(
@@ -72,7 +125,7 @@ export async function addFollow(followerId: string, followedId: string) {
         $addToSet: {
           followers: {
             followerId: followerObject,
-            onModel: "User", // TODO: Or Community
+            onModel: isFollowerUser ? "User" : "Community",
           },
         },
       },
@@ -88,7 +141,7 @@ export async function addFollow(followerId: string, followedId: string) {
         $addToSet: {
           followed: {
             followedId: followedObject,
-            onModel: "User", // TODO: Or Community
+            onModel: isFollowedUser ? "User" : "Community",
           },
         },
       },

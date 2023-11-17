@@ -19,6 +19,7 @@ interface Props {
   bio: string;
   type?: "User" | "Community";
   followersNumber: string;
+  isFollowed: boolean;
 }
 
 const ProfileHeader = ({
@@ -30,19 +31,20 @@ const ProfileHeader = ({
   bio,
   type,
   followersNumber,
+  isFollowed,
 }: Props) => {
   // TODO: Move isFollowed check logic to a higher component in the structure for earlier data loading before
   // component render. Currently, the follow state is updated after the component renders, causing noticeable 
   // button state refresh delays.
-  const [isUserFollowed, setIsUserFollowed] = useState<boolean>(false);
+  const [isUserFollowed, setIsUserFollowed] = useState<boolean>(isFollowed);
 
-  useEffect(() => {
-    const checkFollowStatus = async () => {
-      const followed = await isFollowed(authUserId, accoundId);
-      setIsUserFollowed(followed);
-    };
-    checkFollowStatus();
-  }, [authUserId, accoundId, isUserFollowed]);
+  // useEffect(() => {
+  //   const checkFollowStatus = async () => {
+  //     const followed = await isFollowed(authUserId, accoundId);
+  //     setIsUserFollowed(followed);
+  //   };
+  //   checkFollowStatus();
+  // }, [authUserId, accoundId, isUserFollowed]);
 
   const handleFollow = async () => {
     await addFollow(authUserId, accoundId);

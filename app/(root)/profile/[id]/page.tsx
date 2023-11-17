@@ -8,7 +8,8 @@ import { currentUser } from "@clerk/nextjs";
 import Image from "next/image";
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
-import { getUserFollows } from "@/lib/actions/follow.actions";
+import { getUserFollows, isFollowed } from "@/lib/actions/follow.actions";
+import { useEffect } from "react";
 
 // Dynamic Metadata ==>
 type Props = {
@@ -38,6 +39,8 @@ async function Page({ params }: { params: { id: string } }) {
 
   if (!userInfo?.onboarded) redirect("/onboarding");
 
+  const followed = await isFollowed(user.id, userInfo.id);
+
   return (
     <section>
       <ProfileHeader
@@ -48,6 +51,7 @@ async function Page({ params }: { params: { id: string } }) {
         imgUrl={userInfo.image}
         bio={userInfo.bio}
         followersNumber={userFollows?.searchedUser?.followers?.length || 0}
+        isFollowed={followed}
       />
       <div className="mt-9">
         <Tabs defaultValue="threads" className="w-full">

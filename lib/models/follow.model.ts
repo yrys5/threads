@@ -4,6 +4,7 @@ const followSchema = new mongoose.Schema({
   user: {
     userId: {
       type: mongoose.Schema.Types.ObjectId,
+      unique: true,
       required: true,
       refPath: "user.onModel",
     },
@@ -15,6 +16,7 @@ const followSchema = new mongoose.Schema({
   },
   followers: [
     {
+      _id: false,
       followerId: {
         type: mongoose.Schema.Types.ObjectId,
         refPath: "followers.onModel",
@@ -27,6 +29,7 @@ const followSchema = new mongoose.Schema({
   ],
   followed: [
     {
+      _id: false,
       followedId: {
         type: mongoose.Schema.Types.ObjectId,
         refPath: "followed.onModel",

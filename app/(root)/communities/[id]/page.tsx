@@ -6,7 +6,7 @@ import ThreadsTab from "@/components/shared/ThreadsTab";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchCommunityDetails } from "@/lib/actions/community.actions";
 import UserCard from "@/components/cards/UserCard";
-import { getUserFollows } from "@/lib/actions/follow.actions";
+import { getUserFollows, isFollowed } from "@/lib/actions/follow.actions";
 
 
 async function Page({params}:{params: {id:string}}) {
@@ -16,6 +16,8 @@ async function Page({params}:{params: {id:string}}) {
     const communityDetails = await fetchCommunityDetails(params.id)
 
     const userFollows = await getUserFollows(communityDetails.id);
+
+    const followed = await isFollowed(user.id, communityDetails.id);
 
     return (
         <section>
@@ -28,6 +30,7 @@ async function Page({params}:{params: {id:string}}) {
             bio={communityDetails.bio}
             followersNumber={userFollows?.searchedUser?.followers?.length || 0}
             type="Community"
+            isFollowed={followed}
             />
             <div className="mt-9">
                 <Tabs defaultValue="threads" className="w-full">
