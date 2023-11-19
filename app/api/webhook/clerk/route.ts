@@ -28,7 +28,6 @@ type EventType =
   | "organizationMembership.deleted"
   | "organization.updated"
   | "organization.deleted"
-  | "user.created"
   | "user.updated";
 
 type Event = {
@@ -230,27 +229,4 @@ export const POST = async (request: Request) => {
         );
       }
     }
-
-    // Listen user create
-    if (eventType === "user.created") {
-      try {
-        // Resource: https://clerk.com/docs/reference/backend-api/tag/Users#operation/UpdateUser
-        // Show what evnt?.data sends from above resource
-        const { id, username, image_url, first_name } = evnt?.data;
-        console.log("created user", evnt?.data);
-  
-        // @ts-ignore
-        await updateUser({userId:id, username: username, image: image_url, name: first_name });
-  
-        return NextResponse.json({ message: "Member removed" }, { status: 201 });
-      } catch (err) {
-        console.log(err);
-  
-        return NextResponse.json(
-          { message: "Internal Server Error" },
-          { status: 500 }
-        );
-      }
-    }
-
 };
