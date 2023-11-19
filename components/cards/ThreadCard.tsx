@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 
-import { formatDateString, formatElapsedTime } from "@/lib/utils";
+import { formatDateStringUS, formatElapsedTime } from "@/lib/utils";
 import DeleteThread from "../forms/DeleteThread";
 import OptionsThread from "../forms/OptionsThread";
 
@@ -169,7 +169,7 @@ function ThreadCard({
           className="mt-5 flex items-center"
         >
           <p className="text-subtle-medium text-gray-1">
-            {formatDateString(createdAt)}
+            {formatDateStringUS(createdAt)}
             {community && ` - ${community.name} Community`}
           </p>
 
