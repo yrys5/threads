@@ -9,6 +9,7 @@ import {
   isFollowed,
   removeFollow,
 } from "@/lib/actions/follow.actions";
+import { EditProfile } from "../forms/EditProfile";
 
 interface Props {
   accoundId: string;
@@ -33,18 +34,8 @@ const ProfileHeader = ({
   followersNumber,
   isFollowed,
 }: Props) => {
-  // TODO: Move isFollowed check logic to a higher component in the structure for earlier data loading before
-  // component render. Currently, the follow state is updated after the component renders, causing noticeable 
-  // button state refresh delays.
-  const [isUserFollowed, setIsUserFollowed] = useState<boolean>(isFollowed);
 
-  // useEffect(() => {
-  //   const checkFollowStatus = async () => {
-  //     const followed = await isFollowed(authUserId, accoundId);
-  //     setIsUserFollowed(followed);
-  //   };
-  //   checkFollowStatus();
-  // }, [authUserId, accoundId, isUserFollowed]);
+  const [isUserFollowed, setIsUserFollowed] = useState<boolean>(isFollowed);
 
   const handleFollow = async () => {
     await addFollow(authUserId, accoundId);
@@ -84,11 +75,11 @@ const ProfileHeader = ({
           />
         )}
       </div>
-      <p className="mt-6 max-w-lg text-base-regular text-light-2">{bio}</p>
+      <p className="mt-6 max-w-lg text-base-regular text-light-2">{bio ? bio : ""}</p>
       <p className="mt-6 max-w-lg text-base-regular text-gray-600">
         {followersNumber || 0} followers
       </p>
-      {authUserId !== accoundId &&
+      {authUserId !== accoundId ?
         (isUserFollowed ? (
           <Button
             onClick={handleRemoveFollow}
@@ -100,7 +91,10 @@ const ProfileHeader = ({
           <Button onClick={handleFollow} className="bg-primary-500 mt-4 w-2/6">
             Follow
           </Button>
-        ))}
+        ))
+      : <></> 
+      // TODO: Add EditProfile.tsx
+      }
     </div>
   );
 };

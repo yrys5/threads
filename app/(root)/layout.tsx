@@ -39,15 +39,15 @@ export default function RootLayout({
                     `}
         </Script>
         <body className={inter.className}>
-          <TopBar />
-          <main className="flex flex-row">
-            <LeftSidebar />
-            <section className="main-container">
-              <div className="w-full max-w-4xl">{children}</div>
-            </section>
-            <RightSidebar />
-          </main>
-          <BottomBar />
+            <TopBar />
+            <main className="flex flex-row">
+              <LeftSidebar />
+              <section className="main-container">
+                <div className="w-full max-w-4xl">{children}</div>
+              </section>
+              <RightSidebar />
+            </main>
+            <BottomBar />
         </body>
       </html>
     </ClerkProvider>
