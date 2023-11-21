@@ -92,8 +92,7 @@ const ProfileHeader = ({
             Follow
           </Button>
         ))
-      : <></> 
-      // TODO: Add EditProfile.tsx
+      : <EditProfile authUserId={authUserId} name={name} username={username} bio={bio} imgUrl={imgUrl}/>
       }
     </div>
   );

@@ -23,6 +23,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
+      <meta name="theme-color" content="#101012"/>
         <Script
           strategy="lazyOnload"
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
