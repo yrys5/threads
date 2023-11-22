@@ -67,7 +67,7 @@ export function EditProfile({
                   id="bio"
                   defaultValue={bio}
                   onChange={(e) => setNewBio(e.target.value)}
-                  className="col-span-3"
+                  className="col-span-3 text-white"
                 />
               </div>
             </div>
