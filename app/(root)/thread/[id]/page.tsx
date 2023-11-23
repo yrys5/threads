@@ -1,7 +1,9 @@
 import ThreadCard from "@/components/cards/ThreadCard";
+import ThreadCardClient from "@/components/cards/ThreadCardClient";
 import Comment from "@/components/forms/Comment";
 import { fetchThreadById } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
+import { LikesProvider } from "@/lib/context/LikesProvider";
 import { currentUser } from "@clerk/nextjs";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -44,8 +46,9 @@ const Page = async ({ params }: { params: { id: string } }) => {
 
   return (
     <section className="relative">
+      <LikesProvider>
       <div className="max-sm:mt-5">
-        <ThreadCard
+        <ThreadCardClient
           key={thread._id}
           id={thread._id}
           currentUserId={user?.id || ""}
@@ -55,6 +58,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
           community={thread.community}
           createdAt={thread.createdAt}
           comments={thread.children}
+          likesCount={thread?.likesCount}
         />
       </div>
       <div className="mt-7">
@@ -65,7 +69,7 @@ const Page = async ({ params }: { params: { id: string } }) => {
         />
       </div>
       <div className="mt-7">
-        {thread.children.map((childItem: any) => (
+        {/* {thread.children.map((childItem: any) => (
           <ThreadCard
             key={childItem._id}
             id={childItem._id}
@@ -76,10 +80,12 @@ const Page = async ({ params }: { params: { id: string } }) => {
             community={childItem.community}
             createdAt={childItem.createdAt}
             comments={childItem.children}
+            likesCount={childItem.likesCount}
             isComment
           />
-        ))}
+        ))} */}
       </div>
+      </LikesProvider>
     </section>
   );
 };

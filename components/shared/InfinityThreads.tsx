@@ -3,6 +3,7 @@ import { fetchPosts } from "@/lib/actions/thread.actions";
 import React, { useEffect, useState } from "react";
 import ThreadCard from "../cards/ThreadCard";
 import { useInView } from "react-intersection-observer";
+import { LikesProvider } from "@/lib/context/LikesProvider";
 
 interface Props {
   currentUserId: string;
@@ -37,6 +38,7 @@ const InfinityThreads = ({ currentUserId, threadsInitial }: Props) => {
 
   return (
     <>
+    <LikesProvider>
       {threads?.length === 0 ? (
         <p className="no-results">No threads found</p>
       ) : (
@@ -52,6 +54,7 @@ const InfinityThreads = ({ currentUserId, threadsInitial }: Props) => {
               community={post.community}
               createdAt={post.createdAt}
               comments={post.children}
+              likesCount={post.likesCount}
             />
           ))}
         </>
@@ -79,6 +82,7 @@ const InfinityThreads = ({ currentUserId, threadsInitial }: Props) => {
         </svg>
         <span className="sr-only">Loading...</span>
       </div>
+      </LikesProvider>
     </>
   );
 };

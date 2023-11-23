@@ -18,6 +18,9 @@ const threadSchema = new mongoose.Schema({
     type: Date,
     default: Date.now,
   },
+  likesCount: {
+    type: Number,
+  },
   parentId: {
     type: String,
   },
