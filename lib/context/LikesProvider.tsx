@@ -22,13 +22,12 @@ export const LikesProvider: React.FC<LikesProviderProps> = ({ children }) => {
   const [likedPosts, setLikedPosts] = useState<string[]>([]);
   const { user } = useUser();
 
-  // TODO: Wrong response type?
   useEffect(() => {
     const fetchLikes = async () => {
       if (user?.id) {
         try {
           const response = await getUserLikes({ userId: user.id });
-          setLikedPosts(response);
+          setLikedPosts(JSON.parse(JSON.stringify(response)));
         } catch (error) {
           console.error("Error fetching likes:", error);
         }

@@ -18,7 +18,7 @@ function TopBar() {
     <nav className="topbar">
       <Link href="/" className="flex items-center gap-4">
         {/* <Image src="/assets/logo.svg" alt="logo" width={28} height={28} /> */}
-        <Image src="/assets/logo-3.png" alt="logo" width={28} height={28} />
+        <Image src="/assets/logo-4-w.svg" alt="logo" width={28} height={28}/>
         <p className="text-heading3-bold text-light-1">Thrinks</p>
       </Link>
       <div className="flex items-center gap-1 ">

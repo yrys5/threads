@@ -79,13 +79,14 @@ interface CheckLikeParams {
     userId: string;
   }
 
+// export async function getUserLikes({ userId }: UserLikesParams): Promise<any> {
 export async function getUserLikes({ userId }: UserLikesParams): Promise<mongoose.Types.ObjectId[]> {
     try {
       connectToDB();
   
       const userLikes = await Like.find({ userId }).select('threadId');
   
-      return userLikes.map(like => like.threadId.toString());
+      return userLikes.map(like => like?.threadId.toString());
     //   return userLikes.map(like => like.threadId);
     } catch (error: any) {
       throw new Error(`Failed to retrieve likes: ${error.message}`);

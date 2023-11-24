@@ -22,7 +22,7 @@ const ThreadsTab = async ({ currentUserId, accoundId, accountType }: Props) => {
   return (
     <section className="mt-9 flex flex-col sm:gap-10">
       <LikesProvider>
-      {result.threads.map((thread: any) => (
+      {JSON.parse(JSON.stringify(result.threads)).map((thread: any) => (
           <ThreadCard
             key={thread._id}
             id={thread._id}
