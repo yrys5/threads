@@ -1,9 +1,11 @@
+"use client"
 import Image from "next/image";
 import Link from "next/link";
 
 import { formatDateStringUS, formatElapsedTime } from "@/lib/utils";
-import DeleteThread from "../forms/DeleteThread";
 import OptionsThread from "../forms/OptionsThread";
+import { Button } from "../ui/button";
+import { useLikes } from "@/lib/context/LikesProvider";
 
 interface Props {
   id: string;
@@ -27,6 +29,7 @@ interface Props {
     };
   }[];
   isComment?: boolean;
+  likesCount?: number;
 }
 
 function ThreadCard({
@@ -39,7 +42,12 @@ function ThreadCard({
   createdAt,
   comments,
   isComment,
+  likesCount,
 }: Props) {
+  const { likedPosts, toggleLike } = useLikes();
+
+  const isLikedByCurrentUser = likedPosts?.includes(id);
+
   return (
     <article
       className={`flex w-full flex-col sm:rounded-xl max-sm:p-3 max-sm:border-neutral-900 max-sm:border-t ${
@@ -62,7 +70,6 @@ function ThreadCard({
           </div>
 
           <div className="flex w-full flex-col">
-
             <div className="flex justify-between items-center">
               <Link href={`/profile/${author.id}`} className="w-fit">
                 <h4 className="cursor-pointer text-base-semibold text-light-1">
@@ -71,28 +78,41 @@ function ThreadCard({
               </Link>
 
               <div className="flex">
-                <h5 className=" text-gray-1 font-light mr-5">{formatElapsedTime(createdAt)}</h5>
-              <OptionsThread
-                threadId={JSON.stringify(id)}
-                currentUserId={currentUserId}
-                authorId={author.id}
-                parentId={parentId}
-                isComment={isComment}
+                <h5 className=" text-gray-1 font-light mr-5">
+                  {formatElapsedTime(createdAt)}
+                </h5>
+                <OptionsThread
+                  threadId={JSON.stringify(id)}
+                  currentUserId={currentUserId}
+                  authorId={author.id}
+                  parentId={parentId}
+                  isComment={isComment}
                 />
-                </div>
+              </div>
             </div>
 
             <p className="mt-2 text-small-regular text-light-2">{content}</p>
 
             <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
               <div className="flex gap-3.5">
-                <Image
-                  src="/assets/heart-gray.svg"
-                  alt="heart"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer object-contain"
-                />
+                
+                <Button
+                  className="bg-transparent h-6 w-6"
+                  size="icon"
+                  onClick={() => toggleLike(id)}
+                >
+                  <Image
+                    src={
+                      isLikedByCurrentUser
+                        ? "/assets/heart-filled.svg"
+                        : "/assets/heart-gray.svg"
+                    }
+                    alt="heart"
+                    width={24}
+                    height={24}
+                    className="cursor-pointer object-contain"
+                  />
+                </Button>
                 <Link href={`/thread/${id}`}>
                   <Image
                     src="/assets/reply.svg"
@@ -128,40 +148,46 @@ function ThreadCard({
             </div>
           </div>
         </div>
-
-        {/* <DeleteThread
-          threadId={JSON.stringify(id)}
-          currentUserId={currentUserId}
-          authorId={author.id}
-          parentId={parentId}
-          isComment={isComment}
-        /> */}
       </div>
 
-      {!isComment && comments.length > 0 && (
-        <div className="ml-1.5 mt-3 flex items-center gap-2">
-          {comments.slice(0, 2).map((comment, index) => (
-            <Image
-              key={index}
-              src={comment.author.image}
-              alt={`user_${index}`}
-              width={24}
-              height={24}
-              className={`${index !== 0 && "-ml-5"} rounded-full object-cover`}
-            />
-          ))}
-
+      <div className="ml-1.5 mt-3 flex items-center gap-2">
+        {!isComment && comments.length > 0 && (
+          <>
+            {comments.slice(0, 2).map((comment, index) => (
+              <Image
+                key={index}
+                src={comment.author.image}
+                alt={`user_${index}`}
+                width={24}
+                height={24}
+                className={`${
+                  index !== 0 && "-ml-5"
+                } rounded-full object-cover`}
+              />
+            ))}
+            <Link href={`/thread/${id}`}>
+              <p
+                className={`mt-1 text-subtle-medium text-gray-1 ${
+                  comments.length === 1 ? "ml-3" : ""
+                }`}
+              >
+                {comments.length} repl{comments.length > 1 ? "ies" : "y"}
+              </p>
+            </Link>
+          </>
+        )}
+        {likesCount !== undefined && likesCount > 0 && (
           <Link href={`/thread/${id}`}>
             <p
               className={`mt-1 text-subtle-medium text-gray-1 ${
-                comments.length === 1 && "ml-3"
+                !isComment && comments.length > 0 ? "ml-1" : "ml-11"
               }`}
             >
-              {comments.length} repl{comments.length > 1 ? "ies" : "y"}
+              {likesCount} like{likesCount > 1 ? "s" : ""}
             </p>
           </Link>
-        </div>
-      )}
+        )}
+      </div>
 
       {!isComment && community && (
         <Link
