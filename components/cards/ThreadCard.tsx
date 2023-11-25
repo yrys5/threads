@@ -47,6 +47,7 @@ function ThreadCard({
   const { likedPosts, toggleLike } = useLikes();
 
   const isLikedByCurrentUser = likedPosts?.includes(id);
+  const isLiked = likesCount !== undefined && likesCount > 0;
 
   return (
     <article
@@ -176,7 +177,7 @@ function ThreadCard({
             </Link>
           </>
         )}
-        {likesCount !== undefined && likesCount > 0 && (
+        {isLiked && (
           <Link href={`/thread/${id}`}>
             <p
               className={`mt-1 text-subtle-medium text-gray-1 ${
