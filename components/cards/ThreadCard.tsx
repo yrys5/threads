@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -52,7 +52,7 @@ function ThreadCard({
   return (
     <article
       className={`flex w-full flex-col sm:rounded-xl max-sm:p-3 max-sm:border-neutral-900 max-sm:border-t ${
-        isComment ? "px-0 xs:px-7" : "p-7 sm:bg-dark-2"
+        isComment ? "xs:px-7" : "p-7 sm:bg-dark-2"
       }`}
     >
       <div className="flex items-start justify-between">
@@ -94,10 +94,9 @@ function ThreadCard({
 
             <p className="mt-2 text-small-regular text-light-2">{content}</p>
 
-            <div className={`${isComment && "mb-10"} mt-5 flex flex-col gap-3`}>
+            <div className={`${isComment && "mb-1"} mt-5 flex flex-col gap-3`}>
               <div className="flex gap-3.5">
-                
-                <Button
+                {/* <Button
                   className="bg-transparent h-6 w-6"
                   size="icon"
                   onClick={() => toggleLike(id)}
@@ -112,6 +111,25 @@ function ThreadCard({
                     width={24}
                     height={24}
                     className="cursor-pointer object-contain"
+                  />
+                </Button> */}
+                <Button
+                  className="bg-transparent h-6 w-6"
+                  size="icon"
+                  onClick={() => toggleLike(id)}
+                >
+                  <Image
+                    src={
+                      isLikedByCurrentUser
+                        ? "/assets/heart-filled.svg"
+                        : "/assets/heart-gray.svg"
+                    }
+                    alt="heart"
+                    width={24}
+                    height={24}
+                    className={`cursor-pointer object-contain ${
+                      isLikedByCurrentUser ? "animate-pulse" : ""
+                    }`}
                   />
                 </Button>
                 <Link href={`/thread/${id}`}>
@@ -138,13 +156,28 @@ function ThreadCard({
                   className="cursor-pointer object-contain"
                 />
               </div>
-
-              {isComment && comments.length > 0 && (
-                <Link href={`/thread/${id}`}>
-                  <p className="mt-1 text-subtle-medium text-gray-1">
-                    {comments.length} repl{comments.length > 1 ? "ies" : "y"}
-                  </p>
-                </Link>
+              {isComment && (
+                <div className="flex items-center gap-2">
+                  {comments.length > 0 && (
+                    <Link href={`/thread/${id}`}>
+                      <p className="mt-1 text-subtle-medium text-gray-1">
+                        {comments.length} repl
+                        {comments.length > 1 ? "ies" : "y"}
+                      </p>
+                    </Link>
+                  )}
+                  {isLiked && (
+                    <Link href={`/thread/${id}`}>
+                      <p
+                        className={`mt-1 text-subtle-medium text-gray-1 ${
+                          isComment && comments.length > 0 ? "ml-1" : "ml-0"
+                        }`}
+                      >
+                        {likesCount} like{likesCount > 1 ? "s" : ""}
+                      </p>
+                    </Link>
+                  )}
+                </div>
               )}
             </div>
           </div>
@@ -177,11 +210,11 @@ function ThreadCard({
             </Link>
           </>
         )}
-        {isLiked && (
+        {!isComment && isLiked && (
           <Link href={`/thread/${id}`}>
             <p
               className={`mt-1 text-subtle-medium text-gray-1 ${
-                !isComment && comments.length > 0 ? "ml-1" : "ml-11"
+                comments.length > 0 ? "ml-1" : "ml-11"
               }`}
             >
               {likesCount} like{likesCount > 1 ? "s" : ""}
