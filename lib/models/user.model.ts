@@ -22,6 +22,12 @@ const userSchema = new mongoose.Schema({
       ref: "Thread",
     },
   ],
+  reposts: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Repost",
+    },
+  ],
   onboarded: {
     type: Boolean,
     default: false,

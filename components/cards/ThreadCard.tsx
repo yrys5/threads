@@ -6,6 +6,7 @@ import { formatDateStringUS, formatElapsedTime } from "@/lib/utils";
 import OptionsThread from "../forms/OptionsThread";
 import { Button } from "../ui/button";
 import { useLikes } from "@/lib/context/LikesProvider";
+import { createRepost } from "@/lib/actions/repost.actions";
 
 interface Props {
   id: string;
@@ -141,13 +142,19 @@ function ThreadCard({
                     className="cursor-pointer object-contain"
                   />
                 </Link>
-                <Image
-                  src="/assets/repost.svg"
-                  alt="heart"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer object-contain"
-                />
+                <Button
+                  className="bg-transparent h-6 w-6"
+                  size="icon"
+                  onClick={() => createRepost({originalThreadId: id, repostedBy: currentUserId})}
+                >
+                  <Image
+                    src="/assets/repost.svg"
+                    alt="repost"
+                    width={24}
+                    height={24}
+                    className="cursor-pointer object-contain"
+                  />
+                </Button>
                 <Image
                   src="/assets/share.svg"
                   alt="heart"
