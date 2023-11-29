@@ -45,10 +45,12 @@ function ThreadCard({
   isComment,
   likesCount,
 }: Props) {
-  const { likedPosts, toggleLike } = useLikes();
+  const { likedPosts, repostedPosts, toggleLike, toggleRepost } = useLikes();
 
   const isLikedByCurrentUser = likedPosts?.includes(id);
+  const isRepostedByCurrentUser = repostedPosts?.includes(id);
   const isLiked = likesCount !== undefined && likesCount > 0;
+  // console.log(repostedPosts)
 
   return (
     <article
@@ -145,10 +147,15 @@ function ThreadCard({
                 <Button
                   className="bg-transparent h-6 w-6"
                   size="icon"
-                  onClick={() => createRepost({originalThreadId: id, repostedBy: currentUserId})}
+                  // onClick={() => createRepost({originalThreadId: id, repostedBy: currentUserId})}
+                  onClick={() => toggleRepost(id)}
                 >
                   <Image
-                    src="/assets/repost.svg"
+                    src={
+                      isRepostedByCurrentUser
+                        ? "/assets/repost.svg"
+                        : "/assets/heart-gray.svg"
+                    }
                     alt="repost"
                     width={24}
                     height={24}

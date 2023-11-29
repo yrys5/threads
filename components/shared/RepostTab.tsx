@@ -18,7 +18,7 @@ const RepostTab = async ({ currentUserId, accoundId, accountType }: Props) => {
 
   if (!result) redirect("/");
 
-  console.log(result)
+  // console.log(result)
   return (
     <section className="mt-9 flex flex-col sm:gap-10">
       <LikesProvider>

@@ -9,7 +9,6 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import { getUserFollows, isFollowed } from "@/lib/actions/follow.actions";
-import { useEffect } from "react";
 import RepostTab from "@/components/shared/RepostTab";
 
 // Dynamic Metadata ==>
