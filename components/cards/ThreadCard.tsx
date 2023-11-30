@@ -153,8 +153,8 @@ function ThreadCard({
                   <Image
                     src={
                       isRepostedByCurrentUser
-                        ? "/assets/repost.svg"
-                        : "/assets/heart-gray.svg"
+                        ? "/assets/repost-red.svg"
+                        : "/assets/repost.svg"
                     }
                     alt="repost"
                     width={24}

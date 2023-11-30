@@ -11,7 +11,7 @@ import { useUser } from "@clerk/nextjs";
 import {
   createRepost,
   deleteRepost,
-  fetchUserReposts,
+  fetchUserRepostsIds,
 } from "../actions/repost.actions";
 
 interface LikesProviderProps {
@@ -42,11 +42,10 @@ export const LikesProvider: React.FC<LikesProviderProps> = ({ children }) => {
       }
     };
 
-    //TODO: Fix fetchUserReposts
     const fetchReposts = async () => {
       if (user?.id) {
         try {
-          const responseReposts = await fetchUserReposts(user.id);
+          const responseReposts = await fetchUserRepostsIds(user?.id);
           setRepostedPosts(JSON.parse(JSON.stringify(responseReposts)));
         } catch (error) {
           console.error("Error fetching reposts:", error);
@@ -73,11 +72,9 @@ export const LikesProvider: React.FC<LikesProviderProps> = ({ children }) => {
   const toggleRepost = async (threadId: string) => {
     if (user && user.id) {
       if (repostedPosts.includes(threadId)) {
-        console.log("delete repost")
         await deleteRepost(threadId, user.id);
         setRepostedPosts(repostedPosts.filter((id) => id !== threadId));
       } else {
-        console.log("add repost")
         await createRepost({ originalThreadId: threadId, repostedBy: user.id });
         setRepostedPosts([...repostedPosts, threadId]);
       }

@@ -41,17 +41,17 @@ interface RepostParams {
   }
   
 
-  export async function deleteRepost(repostId: string, repostedBy: string): Promise<void> {
+  export async function deleteRepost(orginalThreadId: string, repostedBy: string): Promise<void> {
     try {
       connectToDB();
   
-      const repost = await Repost.findById(repostId);
+      const repost = await Repost.findOne({orginalThread: orginalThreadId});
       if (!repost) {
         throw new Error("Repost not found");
       }
   
       // Delete the repost
-      await Repost.findByIdAndRemove(repostId);
+      await Repost.findOneAndRemove({orginalThread: orginalThreadId});
   
       // Znajdź użytkownika po jego unikalnym 'id'
       const user = await User.findOne({ id: repostedBy });
@@ -61,7 +61,7 @@ interface RepostParams {
       }
   
       // Update User model
-      const repostIndex = user.reposts.indexOf(repostId);
+      const repostIndex = user.reposts.indexOf(repost._id);
       if (repostIndex > -1) {
         user.reposts.splice(repostIndex, 1);
         await user.save();
@@ -105,12 +105,35 @@ interface RepostParams {
           }
         }
       ]
-    });
+    })
+    .sort({ repostedAt: "desc" });
   
       return reposts; // Zwróć znalezione reposty
     } catch (error: any) {
       throw new Error(`Failed to find reposts: ${error.message}`);
     }
   }
+
+  export async function fetchUserRepostsIds(userId: string) {
+    try {
+      connectToDB();
+  
+      const user = await User.findOne({ id: userId });
+  
+      if (!user) {
+        throw new Error("User not found");
+      }
+  
+      const reposts = await Repost.find({ _id: { $in: user.reposts } })
+        .populate('originalThread', 'id');
+  
+      const repostIds = reposts.map(repost => repost.originalThread.id);
+  
+      return repostIds;
+    } catch (error:any) {
+      throw new Error(`Failed to find reposts: ${error.message}`);
+    }
+  }
+  
   
   
