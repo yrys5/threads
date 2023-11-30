@@ -6,6 +6,7 @@ import { formatDateStringUS, formatElapsedTime } from "@/lib/utils";
 import OptionsThread from "../forms/OptionsThread";
 import { Button } from "../ui/button";
 import { useLikes } from "@/lib/context/LikesProvider";
+import { createRepost } from "@/lib/actions/repost.actions";
 
 interface Props {
   id: string;
@@ -44,10 +45,12 @@ function ThreadCard({
   isComment,
   likesCount,
 }: Props) {
-  const { likedPosts, toggleLike } = useLikes();
+  const { likedPosts, repostedPosts, toggleLike, toggleRepost } = useLikes();
 
   const isLikedByCurrentUser = likedPosts?.includes(id);
+  const isRepostedByCurrentUser = repostedPosts?.includes(id);
   const isLiked = likesCount !== undefined && likesCount > 0;
+  // console.log(repostedPosts)
 
   return (
     <article
@@ -141,13 +144,24 @@ function ThreadCard({
                     className="cursor-pointer object-contain"
                   />
                 </Link>
-                <Image
-                  src="/assets/repost.svg"
-                  alt="heart"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer object-contain"
-                />
+                <Button
+                  className="bg-transparent h-6 w-6"
+                  size="icon"
+                  // onClick={() => createRepost({originalThreadId: id, repostedBy: currentUserId})}
+                  onClick={() => toggleRepost(id)}
+                >
+                  <Image
+                    src={
+                      isRepostedByCurrentUser
+                        ? "/assets/repost-red.svg"
+                        : "/assets/repost.svg"
+                    }
+                    alt="repost"
+                    width={24}
+                    height={24}
+                    className="cursor-pointer object-contain"
+                  />
+                </Button>
                 <Image
                   src="/assets/share.svg"
                   alt="heart"

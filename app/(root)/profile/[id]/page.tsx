@@ -9,7 +9,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import { getUserFollows, isFollowed } from "@/lib/actions/follow.actions";
-import { useEffect } from "react";
+import RepostTab from "@/components/shared/RepostTab";
 
 // Dynamic Metadata ==>
 type Props = {
@@ -71,10 +71,15 @@ async function Page({ params }: { params: { id: string } }) {
                     {userInfo?.threads.length}
                   </p>
                 )}
+                {tab.label === "Reposts" && (
+                  <p className="ml-1 rounded-sm bg-light-4 px-2 py-1 !text-tiny-medium text-light-2">
+                    {userInfo?.reposts.length}
+                  </p>
+                )}
               </TabsTrigger>
             ))}
           </TabsList>
-          {profileTabs.map((tab) => (
+          {/* {profileTabs.map((tab) => (
             <TabsContent
               key={`content-${tab.label}`}
               value={tab.value}
@@ -85,8 +90,35 @@ async function Page({ params }: { params: { id: string } }) {
                 accoundId={userInfo.id}
                 accountType="User"
               />
+              <RepostTab
+                currentUserId={user.id}
+                accoundId={userInfo.id}
+                accountType="User"
+              />
             </TabsContent>
-          ))}
+          ))} */}
+          <TabsContent
+            key="content-threads"
+            value="threads"
+            className="w-full text-light-1"
+          >
+            <ThreadsTab
+              currentUserId={user.id}
+              accoundId={userInfo.id}
+              accountType="User"
+            />
+          </TabsContent>
+          <TabsContent
+            key="content-reposts"
+            value="reposts"
+            className="w-full text-light-1"
+          >
+            <RepostTab
+              currentUserId={user.id}
+              accoundId={userInfo.id}
+              accountType="User"
+            />
+          </TabsContent>
         </Tabs>
       </div>
     </section>
