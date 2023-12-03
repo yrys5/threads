@@ -6,7 +6,6 @@ import { formatDateStringUS, formatElapsedTime } from "@/lib/utils";
 import OptionsThread from "../forms/OptionsThread";
 import { Button } from "../ui/button";
 import { useLikes } from "@/lib/context/LikesProvider";
-import { createRepost } from "@/lib/actions/repost.actions";
 
 interface Props {
   id: string;
@@ -99,23 +98,6 @@ function ThreadCard({
 
             <div className={`${isComment && "mb-1"} mt-5 flex flex-col gap-3`}>
               <div className="flex gap-3.5">
-                {/* <Button
-                  className="bg-transparent h-6 w-6"
-                  size="icon"
-                  onClick={() => toggleLike(id)}
-                >
-                  <Image
-                    src={
-                      isLikedByCurrentUser
-                        ? "/assets/heart-filled.svg"
-                        : "/assets/heart-gray.svg"
-                    }
-                    alt="heart"
-                    width={24}
-                    height={24}
-                    className="cursor-pointer object-contain"
-                  />
-                </Button> */}
                 <Button
                   className="bg-transparent h-6 w-6"
                   size="icon"
@@ -147,7 +129,6 @@ function ThreadCard({
                 <Button
                   className="bg-transparent h-6 w-6"
                   size="icon"
-                  // onClick={() => createRepost({originalThreadId: id, repostedBy: currentUserId})}
                   onClick={() => toggleRepost(id)}
                 >
                   <Image
