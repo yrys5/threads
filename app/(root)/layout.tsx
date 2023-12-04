@@ -23,7 +23,7 @@ export default function RootLayout({
   return (
     <ClerkProvider>
       <html lang="en">
-      <meta name="theme-color" content="#101012"/>
+        <meta name="theme-color" content="#101012" />
         <Script
           strategy="lazyOnload"
           src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS}`}
@@ -40,15 +40,15 @@ export default function RootLayout({
                     `}
         </Script>
         <body className={inter.className}>
-            <TopBar />
-            <main className="flex flex-row">
-              <LeftSidebar />
-              <section className="main-container">
-                <div className="w-full max-w-4xl">{children}</div>
-              </section>
-              <RightSidebar />
-            </main>
-            <BottomBar />
+          <TopBar />
+          <main className="flex flex-row">
+            <LeftSidebar />
+            <section className="main-container">
+              <div className="w-full max-w-4xl">{children}</div>
+            </section>
+            <RightSidebar />
+          </main>
+          <BottomBar />
         </body>
       </html>
     </ClerkProvider>

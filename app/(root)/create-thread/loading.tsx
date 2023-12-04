@@ -2,16 +2,10 @@
 import { Button } from "@/components/ui/button";
 import {
   Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
 } from "@/components/ui/form";
 import { Textarea } from "@/components/ui/textarea";
 
 export default function Loading({ form }: { form: any }) {
-  // Or a custom loading skeleton component
   return (
     <>
       <h1 className="head-text">Create Thread</h1>
