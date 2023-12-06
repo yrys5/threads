@@ -6,6 +6,7 @@ import { formatDateStringUS, formatElapsedTime } from "@/lib/utils";
 import OptionsThread from "../forms/OptionsThread";
 import { Button } from "../ui/button";
 import { useLikes } from "@/lib/context/LikesProvider";
+import ShareThread from "../modals/ShareThread";
 
 interface Props {
   id: string;
@@ -143,13 +144,14 @@ function ThreadCard({
                     className="cursor-pointer object-contain"
                   />
                 </Button>
-                <Image
+                {/* <Image
                   src="/assets/share.svg"
                   alt="heart"
                   width={24}
                   height={24}
                   className="cursor-pointer object-contain"
-                />
+                /> */}
+                <ShareThread/>
               </div>
               {isComment && (
                 <div className="flex items-center gap-2">
