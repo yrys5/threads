@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -10,9 +11,26 @@ import {
 } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { DialogClose } from "@radix-ui/react-dialog";
+import { Copy } from "lucide-react";
 import Image from "next/image";
+import { useToast } from "../ui/use-toast";
 
-function ShareThread() {
+function ShareThread({ id }: any) {
+  const urlToCopy = `https://www.thrinks.com/thread/${id}`;
+
+  const { toast } = useToast();
+
+  const copyToClipboard = async () => {
+    try {
+      await navigator.clipboard.writeText(urlToCopy);
+      toast({
+        description: "Link successfully copied to clipboard",
+      });
+    } catch (err) {
+      console.error("Failed to copy: ", err);
+    }
+  };
   return (
     <>
       <Dialog>
@@ -27,24 +45,41 @@ function ShareThread() {
             />
           </Button>
         </DialogTrigger>
-        <DialogContent className="sm:max-w-[425px]">
+        <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Share this post</DialogTitle>
+            <DialogTitle>Share link</DialogTitle>
+            <DialogDescription>
+              Anyone who has this link and active account will be able to view
+              this.
+            </DialogDescription>
           </DialogHeader>
-          <div className="grid gap-4 py-4">
-            <div className="grid grid-cols-4 items-center gap-4">
-              <Label htmlFor="url" className="text-right">
-                URL
+          <div className="flex items-center space-x-2">
+            <div className="grid flex-1 gap-2">
+              <Label htmlFor="link" className="sr-only">
+                Link
               </Label>
               <Input
-                id="url"
-                defaultValue="https://www.thrinks.com/"
-                className="col-span-3"
+                id="link"
+                defaultValue={`https://www.thrinks.com/thread/${id}`}
+                readOnly
               />
             </div>
+            <Button
+              type="submit"
+              size="sm"
+              className="px-3"
+              onClick={copyToClipboard}
+            >
+              <span className="sr-only">Copy</span>
+              <Copy className="h-4 w-4" />
+            </Button>
           </div>
-          <DialogFooter>
-            <Button type="submit">Copy link</Button>
+          <DialogFooter className="sm:justify-start">
+            <DialogClose asChild>
+              <Button type="button" variant="secondary">
+                Close
+              </Button>
+            </DialogClose>
           </DialogFooter>
         </DialogContent>
       </Dialog>

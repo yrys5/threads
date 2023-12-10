@@ -151,7 +151,7 @@ function ThreadCard({
                   height={24}
                   className="cursor-pointer object-contain"
                 /> */}
-                <ShareThread/>
+                <ShareThread id={id}/>
               </div>
               {isComment && (
                 <div className="flex items-center gap-2">
