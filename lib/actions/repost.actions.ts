@@ -44,14 +44,14 @@ interface RepostParams {
   export async function deleteRepost(orginalThreadId: string, repostedBy: string): Promise<void> {
     try {
       connectToDB();
-  
-      const repost = await Repost.findOne({orginalThread: orginalThreadId});
+      
+      const repost = await Repost.findOne({ originalThread: orginalThreadId, repostedBy: repostedBy });
       if (!repost) {
         throw new Error("Repost not found");
       }
   
       // Delete the repost
-      await Repost.findOneAndRemove({orginalThread: orginalThreadId});
+      await Repost.findOneAndRemove({originalThread: orginalThreadId, repostedBy: repostedBy});
   
       // Znajdź użytkownika po jego unikalnym 'id'
       const user = await User.findOne({ id: repostedBy });

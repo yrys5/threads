@@ -50,7 +50,6 @@ function ThreadCard({
   const isLikedByCurrentUser = likedPosts?.includes(id);
   const isRepostedByCurrentUser = repostedPosts?.includes(id);
   const isLiked = likesCount !== undefined && likesCount > 0;
-  // console.log(repostedPosts)
 
   return (
     <article
