@@ -18,7 +18,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { usePathname, useRouter } from "next/navigation";
 import { ThreadValidation } from "@/lib/validations/thread";
 import { createThread } from "@/lib/actions/thread.actions";
-import { useOrganization } from "@clerk/nextjs";
+import { useOrganization, useUser } from "@clerk/nextjs";
+import { Info } from "lucide-react";
 
 // import { updateUser } from "@/lib/actions/user.actions";
 
@@ -38,6 +39,8 @@ function PostThread({ userId }: { userId: string }) {
   const router = useRouter();
   const pathname = usePathname();
   const { organization } = useOrganization();
+  const { isSignedIn, user } = useUser();
+  // console.log(organization);
 
   const form = useForm({
     resolver: zodResolver(ThreadValidation),
@@ -75,6 +78,13 @@ function PostThread({ userId }: { userId: string }) {
               <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
                 <Textarea rows={15} {...field} />
               </FormControl>
+                <div className="flex gap-3">
+                  <Info color="#8e9617" />
+                  <p className="text-light-1">
+                    You are currently posting as:{" "}
+                    {organization ? organization?.name : user?.username}
+                  </p>
+                </div>
               <FormMessage />
             </FormItem>
           )}
