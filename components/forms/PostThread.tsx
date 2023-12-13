@@ -40,7 +40,6 @@ function PostThread({ userId }: { userId: string }) {
   const pathname = usePathname();
   const { organization } = useOrganization();
   const { isSignedIn, user } = useUser();
-  // console.log(organization);
 
   const form = useForm({
     resolver: zodResolver(ThreadValidation),
@@ -76,8 +75,9 @@ function PostThread({ userId }: { userId: string }) {
                 Content
               </FormLabel>
               <FormControl className="no-focus border border-dark-4 bg-dark-3 text-light-1">
-                <Textarea rows={15} {...field} />
+                <Textarea rows={10} {...field} />
               </FormControl>
+              <div className="text-light-1">{field.value.length}/280</div>
                 <div className="flex gap-3">
                   <Info color="#8e9617" />
                   <p className="text-light-1">
