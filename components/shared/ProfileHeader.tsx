@@ -56,6 +56,7 @@ const ProfileHeader = ({
               src={imgUrl}
               alt="Profile Image"
               fill
+              sizes="(max-width: 600px) 100vw, 50vw"
               className="rounded-full object-cover shadow-2xl"
             />
           </div>

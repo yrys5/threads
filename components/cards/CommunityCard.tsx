@@ -23,6 +23,7 @@ function CommunityCard({ id, name, username, imgUrl, bio, members }: Props) {
             src={imgUrl}
             alt='community_logo'
             fill
+            sizes="(max-width: 600px) 100vw, 50vw"
             className='rounded-full object-cover'
           />
         </Link>

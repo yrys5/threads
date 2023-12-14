@@ -65,6 +65,7 @@ function ThreadCard({
                 src={author.image}
                 alt="user_community_image"
                 fill
+                sizes="(max-width: 600px) 100vw, 50vw"
                 className="cursor-pointer rounded-full"
               />
             </Link>
