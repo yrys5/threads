@@ -239,3 +239,18 @@ export async function addCommentToThread(
     throw new Error("Unable to add comment");
   }
 }
+
+export async function fetchUserThreadsAndParents(userId: string): Promise<any[]> {
+  const threads = await Thread.find({ author: userId, parentId: { $exists: true } }).populate('children');
+
+  const threadsWithParents = [];
+
+  for (const thread of threads) {
+    const parentThread = await Thread.findById(thread.parentId);
+    if (parentThread) {
+      threadsWithParents.push({ thread, parent: parentThread });
+    }
+  }
+
+  return threadsWithParents;
+}

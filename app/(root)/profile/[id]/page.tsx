@@ -10,6 +10,7 @@ import { redirect } from "next/navigation";
 import { Metadata } from "next";
 import { getUserFollows, isFollowed } from "@/lib/actions/follow.actions";
 import RepostTab from "@/components/shared/RepostTab";
+import RepliesTab from "@/components/shared/RepliesTab";
 
 // Dynamic Metadata ==>
 type Props = {
@@ -18,7 +19,6 @@ type Props = {
 
 export const generateMetadata = async (props: Props): Promise<Metadata> => {
   const { params } = props;
-  // const user = await currentUser();
 
   const userInfo = await fetchUser(params.id);
   return {
@@ -79,24 +79,6 @@ async function Page({ params }: { params: { id: string } }) {
               </TabsTrigger>
             ))}
           </TabsList>
-          {/* {profileTabs.map((tab) => (
-            <TabsContent
-              key={`content-${tab.label}`}
-              value={tab.value}
-              className="w-full text-light-1"
-            >
-              <ThreadsTab
-                currentUserId={user.id}
-                accoundId={userInfo.id}
-                accountType="User"
-              />
-              <RepostTab
-                currentUserId={user.id}
-                accoundId={userInfo.id}
-                accountType="User"
-              />
-            </TabsContent>
-          ))} */}
           <TabsContent
             key="content-threads"
             value="threads"
@@ -105,6 +87,17 @@ async function Page({ params }: { params: { id: string } }) {
             <ThreadsTab
               currentUserId={user.id}
               accoundId={userInfo.id}
+              accountType="User"
+            />
+          </TabsContent>
+          <TabsContent
+            key="content-replies"
+            value="replies"
+            className="w-full text-light-1"
+          >
+            <RepliesTab
+              currentUserId={user.id}
+              accoundId={userInfo._id}
               accountType="User"
             />
           </TabsContent>
