@@ -50,14 +50,18 @@ export async function fetchPosts(pageNumber = 1, pageSize = 5) {
 }
 
 interface Params {
-  text: string,
-  author: string,
-  communityId: string | null,
-  path: string,
+  text: string;
+  author: string;
+  communityId: string | null;
+  path: string;
 }
 
-export async function createThread({ text, author, communityId, path }: Params
-) {
+export async function createThread({
+  text,
+  author,
+  communityId,
+  path,
+}: Params) {
   try {
     connectToDB();
 
@@ -240,13 +244,23 @@ export async function addCommentToThread(
   }
 }
 
-export async function fetchUserThreadsAndParents(userId: string): Promise<any[]> {
-  const threads = await Thread.find({ author: userId, parentId: { $exists: true } }).populate('children');
+export async function fetchUserThreadsAndParents(
+  userId: string
+): Promise<any[]> {
+  const threads = await Thread.find({
+    author: userId,
+    parentId: { $exists: true },
+  })
+    .populate("author")
+    .populate("children");
 
   const threadsWithParents = [];
 
   for (const thread of threads) {
-    const parentThread = await Thread.findById(thread.parentId);
+    const parentThread = await Thread.findById(thread.parentId).populate(
+      "author"
+    );
+
     if (parentThread) {
       threadsWithParents.push({ thread, parent: parentThread });
     }

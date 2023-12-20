@@ -144,14 +144,7 @@ function ThreadCard({
                     className="cursor-pointer object-contain"
                   />
                 </Button>
-                {/* <Image
-                  src="/assets/share.svg"
-                  alt="heart"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer object-contain"
-                /> */}
-                <ShareThread id={id}/>
+                <ShareThread id={id} />
               </div>
               {isComment && (
                 <div className="flex items-center gap-2">
