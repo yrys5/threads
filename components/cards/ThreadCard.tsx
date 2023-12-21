@@ -70,7 +70,7 @@ function ThreadCard({
               />
             </Link>
 
-            <div className="thread-card_bar" />
+           {comments?.length > 0 && <div className="thread-card_bar" />}
           </div>
 
           <div className="flex w-full flex-col">
@@ -186,7 +186,7 @@ function ThreadCard({
                 height={24}
                 className={`${
                   index !== 0 && "-ml-5"
-                } rounded-full object-cover`}
+                } rounded-full object-cover h-6`}
               />
             ))}
             <Link href={`/thread/${id}`}>

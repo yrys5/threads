@@ -251,6 +251,7 @@ export async function fetchUserThreadsAndParents(
     author: userId,
     parentId: { $exists: true },
   })
+    .sort({ createdAt: "desc" })
     .populate("author")
     .populate("children");
 
