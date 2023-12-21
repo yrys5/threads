@@ -70,7 +70,7 @@ function ThreadCard({
               />
             </Link>
 
-            <div className="thread-card_bar" />
+           {comments?.length > 0 && <div className="thread-card_bar" />}
           </div>
 
           <div className="flex w-full flex-col">
@@ -144,14 +144,7 @@ function ThreadCard({
                     className="cursor-pointer object-contain"
                   />
                 </Button>
-                {/* <Image
-                  src="/assets/share.svg"
-                  alt="heart"
-                  width={24}
-                  height={24}
-                  className="cursor-pointer object-contain"
-                /> */}
-                <ShareThread id={id}/>
+                <ShareThread id={id} />
               </div>
               {isComment && (
                 <div className="flex items-center gap-2">
@@ -193,7 +186,7 @@ function ThreadCard({
                 height={24}
                 className={`${
                   index !== 0 && "-ml-5"
-                } rounded-full object-cover`}
+                } rounded-full object-cover h-6`}
               />
             ))}
             <Link href={`/thread/${id}`}>
